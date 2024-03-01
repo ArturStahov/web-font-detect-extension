@@ -2,52 +2,35 @@
 import { useToggle } from '@vueuse/core'
 import 'uno.css'
 import { ref, onMounted } from 'vue'
+import { detectTagConfig, getStyles, styleOptions } from '~/services/content-service';
+import { debounce } from '~/services/utils-service';
 
 const [show, toggle] = useToggle(false);
-
-const detectTagConfig = [
-  "a", "abbr", "address", "article", "aside", "b", "bdi", "bdo", "blockquote", "body", "button",
-  "canvas", "caption", "cite", "code", "colgroup", "data", "datalist", "dd", "del", "details", "dfn",
-  "div", "dl", "dt", "em", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3",
-  "h4", "h5", "h6", "header", "html", "i", "iframe", "ins", "kbd", "label", "legend", "li", "main",
-  "map", "mark", "menu", "meter", "nav", "noscript", "object", "ol", "optgroup", "option", "output",
-  "p", "picture", "pre", "progress", "q", "rp", "rt", "ruby", "s", "samp", "section", "select", "small",
-  "span", "strong", "sub", "summary", "sup", "table", "tbody", "td", "template", "textarea", "tfoot",
-  "th", "thead", "time", "tr", "u", "ul", "var", "video", "wbr"
-];
 
 onMounted(() => {
   document.addEventListener('mousemove', debounce(handlerMousePosition) );
 })
 
-function debounce(func: any, timeout = 300) {
-  let timer: any = 0;
-  return (...args: any[]) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { func.apply(this, args); }, timeout);
-  };
-}
-
-function handlerMousePosition(event: any) {
+async function handlerMousePosition(event: any) {
   const x = event.clientX;
   const y = event.clientY;
 
   const element = document.elementFromPoint(x, y);
   if (!element) return;
 
-  const text = getTextFromElement(element);
-  if (text) {
-    console.log(text);
+  const style = await getElementStyle(element);
+  if (style) {
+    console.log(style);
   }
 }
 
-function getTextFromElement(element: Element): string | null {
+async function getElementStyle(element: Element): Promise<{ [key: string]: string } | null> {
   const tagName = element.tagName.toLowerCase();
-  const isTextCondition = detectTagConfig.includes(tagName);
-  if (isTextCondition) {
-    return element.textContent;
+  const isElementWithTextContent = detectTagConfig.includes(tagName);
+  if (isElementWithTextContent) {
+    return getStyles(element, styleOptions);
   }
-  return null;
+  return Promise.resolve(null);
 }
 
 </script>
