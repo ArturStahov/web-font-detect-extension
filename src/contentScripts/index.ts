@@ -6,14 +6,23 @@ import { setupApp } from '~/logic/common-setup'
 
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
 (() => {
-  console.info('[vitesse-webext] Hello world from content script')
+  console.info('CONTENT_SCRIPT SUBSCRIBE')
 
   // communication example: send previous tab title from background page
-  onMessage('tab-prev', ({ data }) => {
-    console.log(`[vitesse-webext] Navigate from page "${data.title}"`)
+  // onMessage('tab-prev', ({ data }) => {
+  //   console.log(`[vitesse-webext] Navigate from page "${data.title}"`)
+  // })
+
+  onMessage('activate-extension-event', (data) => {
+    console.log('ACTIVATE EXTENSION', data)
+    mountContentPopup();
   })
 
-  // mount component to context window
+  //mountContentPopup()
+})()
+
+
+function mountContentPopup() {
   const container = document.createElement('div')
   container.id = __NAME__
   const root = document.createElement('div')
@@ -27,4 +36,4 @@ import { setupApp } from '~/logic/common-setup'
   const app = createApp(App)
   setupApp(app)
   app.mount(root)
-})()
+}

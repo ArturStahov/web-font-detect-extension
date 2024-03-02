@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { storageDemo } from '~/logic/storage'
 </script>
 
@@ -13,4 +13,4 @@ import { storageDemo } from '~/logic/storage'
       Powered by RokkArt
     </div>
   </main>
-</template>
+</template> -->

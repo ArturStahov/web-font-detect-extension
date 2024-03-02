@@ -4,11 +4,19 @@ import 'uno.css'
 import { ref, onMounted } from 'vue'
 import { detectTagConfig, getStyles, styleOptions } from '~/services/content-service';
 import { debounce } from '~/services/utils-service';
+//import { onMessage  } from 'webext-bridge/content-script'
+//import { storageDemo } from '~/logic/storage'
 
-const [show, toggle] = useToggle(false);
+const [show, showPopup] = useToggle(false);
+
+// onMessage('activate-extension-event', (data) => {
+//   console.log('ACTIVATE EXTENSION!!!!!!!!!', data)
+//   toggle();
+// })
 
 onMounted(() => {
   document.addEventListener('mousemove', debounce(handlerMousePosition) );
+  showPopup();
 })
 
 async function handlerMousePosition(event: any) {
@@ -36,7 +44,7 @@ async function getElementStyle(element: Element): Promise<{ [key: string]: strin
 </script>
 
 <template>
-  <div class="fixed right-0 bottom-0 m-5 z-100 flex items-end font-sans select-none leading-1em">
+  <div class="fixed right-0 top-0 m-5 z-100 flex items-end font-sans select-none leading-1em">
     <div
       class="bg-white text-gray-800 rounded-lg shadow w-max h-min"
       p="x-4 y-2"
@@ -45,16 +53,16 @@ async function getElementStyle(element: Element): Promise<{ [key: string]: strin
       :class="show ? 'opacity-100' : 'opacity-0'"
     >
       <h1 class="text-lg">
-        Vitesse WebExt
+        Fontio
       </h1>
       <SharedSubtitle />
     </div>
-    <button
+    <!-- <button
       class="flex w-10 h-10 rounded-full shadow cursor-pointer border-none"
       bg="teal-600 hover:teal-700"
       @click="toggle()"
     >
      
-    </button>
+    </button> -->
   </div>
 </template>

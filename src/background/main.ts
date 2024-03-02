@@ -36,7 +36,7 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
 
   // eslint-disable-next-line no-console
   console.log('previous tab', tab)
-  sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
+  //sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
 })
 
 onMessage('get-current-tab', async () => {
@@ -52,3 +52,8 @@ onMessage('get-current-tab', async () => {
     }
   }
 })
+
+onMessage('activate-extension-event', (data) => {
+  console.log('EVENT FROM POPUP > CONTENT_SCRIPT ACTIVATED', data)
+})
+

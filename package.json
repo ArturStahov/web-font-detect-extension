@@ -1,6 +1,6 @@
 {
-  "name": "detect-font",
-  "displayName": "detect-font",
+  "name": "fontio",
+  "displayName": "fontio",
   "version": "0.0.1",
   "private": true,
   "description": "detect font",
