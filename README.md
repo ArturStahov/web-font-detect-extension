@@ -1,2 +1,2 @@
-# WebExtension detect-font
+# WebExtension Fontio
 

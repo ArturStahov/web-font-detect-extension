@@ -46,16 +46,16 @@ async function getElementStyle(element: Element): Promise<{ [key: string]: strin
 <template>
   <div class="fixed right-0 top-0 m-5 z-100 flex items-end font-sans select-none leading-1em">
     <div
-      class="bg-white text-gray-800 rounded-lg shadow w-max h-min"
+      class="popup-content text-gray-800 shadow w-max h-min"
       p="x-4 y-2"
       m="y-auto r-2"
       transition="opacity duration-300"
       :class="show ? 'opacity-100' : 'opacity-0'"
     >
-      <h1 class="text-lg">
+      <h1 class="text text-lg">
         Fontio
       </h1>
-      <SharedSubtitle />
+  
     </div>
     <!-- <button
       class="flex w-10 h-10 rounded-full shadow cursor-pointer border-none"
@@ -66,3 +66,24 @@ async function getElementStyle(element: Element): Promise<{ [key: string]: strin
     </button> -->
   </div>
 </template>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.popup-content {
+  width: 225px;
+  height: 300px;
+  background-color: #363636;
+  border: none;
+  border-radius: 5px;
+}
+
+.popup-content .text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+</style>

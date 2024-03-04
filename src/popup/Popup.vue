@@ -34,9 +34,9 @@ onMounted(async() => {
 </script>
 
 <template>
-  <main class="w-[300px] px-4 py-5 text-center text-gray-700">
+  <main class="popup-main px-4 py-5 text-center text-gray-700">
     <Logo />
-    <div>Popup</div>
+    <h1 class="text">Fontio</h1>
     <SharedSubtitle />
     <p> Select scan activated button ("Left CNTRL by default")</p>
 
@@ -46,3 +46,12 @@ onMounted(async() => {
 
   </main>
 </template>
+
+<style>
+.popup-main {
+  width: 350px;
+  background-color: #363636;
+  border: none;
+  border-radius: 5px;
+}
+</style>

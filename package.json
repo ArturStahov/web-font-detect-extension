@@ -1,9 +1,9 @@
 {
-  "name": "fontio",
-  "displayName": "fontio",
+  "name": "Fontio",
+  "displayName": "Fontio",
   "version": "0.0.1",
   "private": true,
-  "description": "detect font",
+  "description": "Fast and simple use!",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",
