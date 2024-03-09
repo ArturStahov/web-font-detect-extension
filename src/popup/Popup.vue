@@ -38,7 +38,7 @@ onMounted(async() => {
     <Logo />
     <h1 class="text">Fontio</h1>
     <SharedSubtitle />
-    <p> Select scan activated button ("Left CNTRL by default")</p>
+    <p class="text"> Select scan activated button ("Left CNTRL by default")</p>
 
     <button class="btn mt-2" @click="activatedExtension">
       Start
@@ -49,7 +49,7 @@ onMounted(async() => {
 
 <style>
 .popup-main {
-  width: 350px;
+  width: 400px;
   background-color: #363636;
   border: none;
   border-radius: 5px;

@@ -1,4 +1,4 @@
-export const detectTagConfig = [
+export const tagWithContentConfig = [
   "a", "abbr", "address", "article", "aside", "b", "bdi", "bdo", "blockquote", "body", "button",
   "canvas", "caption", "cite", "code", "colgroup", "data", "datalist", "dd", "del", "details", "dfn",
   "div", "dl", "dt", "em", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3",
@@ -27,6 +27,32 @@ export async function getStyles(element: any, options: string[]) {
     ['render-font-style']: detectFontStyleRender(stylesObj),
   };
 };
+
+export function isPointOverText(event: any) {
+  const x = event?.clientX;
+  const y = event?.clientY;
+  const element = document.elementFromPoint(x, y);
+  if (element == null) return false;
+  const nodes = element.childNodes;
+  for (let i = 0, node; (node = nodes[i++]);) {
+    if (node.nodeType === 3) {
+      const range = document.createRange();
+      range.selectNode(node);
+      const rects = range.getClientRects();
+      for (let j = 0, rect; (rect = rects[j++]);) {
+        if (
+          x > rect.left &&
+          x < rect.right &&
+          y > rect.top &&
+          y < rect.bottom
+        ) {
+          if (node.nodeType === Node.TEXT_NODE) return true;
+        }
+      }
+    }
+  }
+  return false;
+}
 
 function detectFontStyleRender(stylesObj: { [key: string]: string }) {
   let fontStyleRender = 'Unknown'
