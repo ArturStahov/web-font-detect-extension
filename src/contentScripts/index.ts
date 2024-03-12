@@ -14,7 +14,7 @@ import { setupApp } from '~/logic/common-setup'
 
 function mountContentPopup() {
   const container = document.createElement('div')
-  container.id = __NAME__
+  container.id = `${__NAME__ + Date.now() }`
   const root = document.createElement('div')
   const styleEl = document.createElement('link')
   const shadowDOM = container.attachShadow?.({ mode: __DEV__ ? 'open' : 'closed' }) || container

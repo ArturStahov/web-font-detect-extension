@@ -2,7 +2,8 @@
 import { useToggle } from '@vueuse/core'
 import 'uno.css'
 import { ref, onMounted, reactive } from 'vue'
-import { tagWithContentConfig, getStyles, styleOptions, isPointOverText, getTooltipPosition } from '~/services/content-service';
+import { tagWithContentConfig, getStyles, styleOptions } from '~/services/content-service';
+import { getTooltipPosition, isPointOverText } from '~/services/tooltip-service';
 import { debounce } from '~/services/utils-service';
 //import { onMessage  } from 'webext-bridge/content-script'
 //import { storageDemo } from '~/logic/storage'
@@ -28,6 +29,8 @@ const tooltipPosition = reactive({
 
 const controlButton = ref({ code: 17, name: 'left CTRL' }); 
 
+const tooltipElement = ref<any>(null);
+
 const isShowTooltip = ref(false); 
 
 const pingSetToPopup = ref(false);
@@ -43,7 +46,7 @@ const visibleTooltip = () => {
 
 onMounted(() => {
   document.addEventListener('mousemove', handlerMousePosition );
-  document.addEventListener("keydown", handlerControlButton);
+  window.addEventListener("keydown", handlerControlButton);
   togglePopup();
   //controlButton.value = storeEventButton;
 })
@@ -70,12 +73,12 @@ async function handlerMousePosition(event: any) {
   const element = document.elementFromPoint(x, y);
   if (!element) return;
 
+  const position = getTooltipPosition(x, y, tooltipElement.value);
+  position && Object.assign(tooltipPosition, position);
   const information = await getElementInfo(element, event);
   
   if (information?.style) {
     Object.assign(elementInfo, information?.style);
-    const position = getTooltipPosition(x,y);
-    position && Object.assign(tooltipPosition, position);
     isShowTooltip.value = true;
   }
   
@@ -100,7 +103,7 @@ async function getElementInfo(element: Element, event: any): Promise<{ [key: str
 
 <template>
   <div class="wrapper-main right-0 top-0 select-none leading-1em">
-    <TooltipComponent :elementInfo="elementInfo" :position="tooltipPosition" :visible="visibleTooltip()"
+    <TooltipComponent ref="tooltipElement" :elementInfo="elementInfo" :position="tooltipPosition" :visible="visibleTooltip()"
       :controlButton="controlButton.name" />
 
     <!-- POPUP -->

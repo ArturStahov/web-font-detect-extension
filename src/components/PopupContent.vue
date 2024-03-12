@@ -64,7 +64,7 @@ onMounted(() => {
   border: none;
   border-radius: 5px;
   opacity: 0.95;
-  z-index: 10000;
+  z-index: 9000;
 }
 
 .popup-button-close {

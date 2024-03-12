@@ -28,40 +28,6 @@ export async function getStyles(element: any, options: string[]) {
   };
 };
 
-export function getTooltipPosition(clientX:number, clientY:number) {
-  
-  return {
-    left: clientX - 20 + window.scrollX,    
-    top: clientY - 100 + window.scrollY
-  };
-}
-
-export function isPointOverText(event: any) {
-  const x = event?.clientX;
-  const y = event?.clientY;
-  const element = document.elementFromPoint(x, y);
-  if (element == null) return false;
-  const nodes = element.childNodes;
-  for (let i = 0, node; (node = nodes[i++]);) {
-    if (node.nodeType === 3) {
-      const range = document.createRange();
-      range.selectNode(node);
-      const rects = range.getClientRects();
-      for (let j = 0, rect; (rect = rects[j++]);) {
-        if (
-          x > rect.left &&
-          x < rect.right &&
-          y > rect.top &&
-          y < rect.bottom
-        ) {
-          if (node.nodeType === Node.TEXT_NODE) return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
 function detectFontStyleRender(stylesObj: { [key: string]: string }) {
   let fontStyleRender = 'Unknown'
   if (stylesObj['font-family']?.includes('serif')) {
