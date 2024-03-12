@@ -75,6 +75,7 @@ const props = defineProps({
   border-radius: 5px;
   box-shadow: 1px 1px 5px 1px #ffffff57;
   z-index: 10000;
+  transform: translate3d(0, 0, 0);
 }
 
 .tooltip-fontio p {

@@ -31,8 +31,8 @@ export async function getStyles(element: any, options: string[]) {
 export function getTooltipPosition(clientX:number, clientY:number) {
   
   return {
-    left: clientX - 20,
-    top: clientY - 100
+    left: clientX - 20 + window.scrollX,    
+    top: clientY - 100 + window.scrollY
   };
 }
 
