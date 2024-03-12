@@ -2,7 +2,7 @@
 import { useToggle } from '@vueuse/core'
 import 'uno.css'
 import { ref, onMounted, reactive } from 'vue'
-import { tagWithContentConfig, getStyles, styleOptions, isPointOverText } from '~/services/content-service';
+import { tagWithContentConfig, getStyles, styleOptions, isPointOverText, getTooltipPosition } from '~/services/content-service';
 import { debounce } from '~/services/utils-service';
 //import { onMessage  } from 'webext-bridge/content-script'
 //import { storageDemo } from '~/logic/storage'
@@ -42,7 +42,7 @@ const visibleTooltip = () => {
 }
 
 onMounted(() => {
-  document.addEventListener('mousemove', debounce(handlerMousePosition) );
+  document.addEventListener('mousemove', handlerMousePosition );
   document.addEventListener("keydown", handlerControlButton);
   togglePopup();
   //controlButton.value = storeEventButton;
@@ -74,6 +74,8 @@ async function handlerMousePosition(event: any) {
   
   if (information?.style) {
     Object.assign(elementInfo, information?.style);
+    const position = getTooltipPosition(x,y);
+    position && Object.assign(tooltipPosition, position);
     isShowTooltip.value = true;
   }
   
