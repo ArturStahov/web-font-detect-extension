@@ -29,12 +29,13 @@ export async function getStyles(element: any, options: string[]) {
 };
 
 function detectFontStyleRender(stylesObj: { [key: string]: string }) {
-  let fontStyleRender = 'Unknown'
+  let fontStyleRender = 'Sans-serif'
   if (stylesObj['font-family']?.includes('serif')) {
     fontStyleRender = 'Serif';
-  } else if (stylesObj['font-family']?.includes('sans-serif')) {
+  } 
+  if (stylesObj['font-family']?.includes('sans-serif') || stylesObj['font-family']?.includes('ui-sans-serif')) {
     fontStyleRender = 'Sans-serif';
-  }
+  } 
   return fontStyleRender;
 }
 
@@ -86,3 +87,35 @@ async function detectRenderedFont(element: HTMLElement): Promise<string> {
   return 'monospace';
 }
 
+export function parseRgb(rgb: string) {
+  const regex = /\d+/g;
+  const matches = rgb.match(regex);
+  const r = parseInt(matches?.[0] || '');
+  const g = parseInt(matches?.[1] || '');
+  const b = parseInt(matches?.[2] || '');
+  if (!matches?.length) {
+    return ''
+  }
+  return rgbToHex(r,g,b);
+}
+
+function rgbToHex(r: number, g: number, b: number) {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function componentToHex(c: number) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+export function createStyleString(details: {[key: string]: string}) {
+  return `.selector: {
+    font-family: "${details['render-font-family']}",${details['render-font-style']};
+    font-weight: ${details['font-weight']};
+    font-size: ${details['font-size']};
+    line-height: ${details['line-height']};
+    letter-spacing: ${details['letter-spacing']};
+    font-style: ${details['font-style']};
+    color: ${details['color']};
+  }`
+}

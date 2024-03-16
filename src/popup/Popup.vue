@@ -36,9 +36,9 @@ onMounted(async() => {
 <template>
   <main class="popup-main px-4 py-5 text-center text-gray-700">
     <Logo />
-    <h1 class="text">Fontio</h1>
+    <h1 class="text logo">Fontio</h1>
     <SharedSubtitle />
-    <p class="text"> Select scan activated button ("Left CNTRL by default")</p>
+    <p class="text"> Scan activated button "Left CTRL"</p>
 
     <button class="btn mt-2" @click="activatedExtension">
       Start

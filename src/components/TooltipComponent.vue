@@ -74,7 +74,7 @@ const props = defineProps({
   border: none;
   border-radius: 5px;
   box-shadow: 1px 1px 5px 1px #ffffff57;
-  z-index: 10000;
+  z-index: 2147483647;
   transform: translate3d(0, 0, 0);
 }
 
@@ -87,7 +87,7 @@ const props = defineProps({
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 .tooltip-wrapper-information span {

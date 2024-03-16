@@ -52,7 +52,6 @@ onMounted(() => {
 })
 
 function handlerControlButton(event: any) {
-  console.log("EVENT>>>", event.keyCode, event.ctrlKey)
   if (!show.value || event.isComposing || event.keyCode === 229) {
     return;
   }
@@ -81,8 +80,6 @@ async function handlerMousePosition(event: any) {
     Object.assign(elementInfo, information?.style);
     isShowTooltip.value = true;
   }
-  
-  console.log(information);
 }
 
 async function getElementInfo(element: Element, event: any): Promise<{ [key: string]: string } | null> {
@@ -114,6 +111,7 @@ async function getElementInfo(element: Element, event: any): Promise<{ [key: str
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .wrapper-main {
   position: absolute;
   width: 100%;
