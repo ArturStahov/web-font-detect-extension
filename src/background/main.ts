@@ -39,21 +39,18 @@ browser.tabs.onActivated.addListener(async ({ tabId }) => {
   //sendMessage('tab-prev', { title: tab.title }, { context: 'content-script', tabId })
 })
 
-onMessage('get-current-tab', async () => {
-  try {
-    const tab = await browser.tabs.get(previousTabId)
-    return {
-      title: tab?.title,
-    }
-  }
-  catch {
-    return {
-      title: undefined,
-    }
-  }
-})
 
 onMessage('activate-extension-event', (data) => {
   console.log('EVENT FROM POPUP > CONTENT_SCRIPT ACTIVATED', data)
+})
+
+onMessage('get-fonts-details', async(data: any) => {
+  console.log('EVENT FROM CONTENT SCRIPT > GET-FONT-DETAILS', data)
+  let tabs = await browser.tabs.query({
+    active: true,
+    currentWindow: true
+  });
+  const currentTabId = tabs[0]?.id || 0;
+  await sendMessage('font-details', { activate: 'HELLOW!' }, { context: 'content-script', tabId: currentTabId  });
 })
 

@@ -4,7 +4,9 @@ import { ref, onMounted, reactive, defineEmits, defineProps, watch, toRefs, comp
 import { createStyleString, parseRgb } from '~/services/content-service';
 
 const emit = defineEmits<{
-  (e: 'close',): void
+  (e: 'close',): void,
+  (e: 'get-font-details',): void,
+  (e: 'hide-popup-to-button',): void
 }>();
 
 const props = defineProps({
@@ -21,9 +23,13 @@ const props = defineProps({
       return null
     }
   },
+  hidePopup: {
+    type: Boolean,
+    default: false
+  },
 });
 
-const { ping, elementInfo } = toRefs(props);
+const { ping, elementInfo, hidePopup } = toRefs(props);
 
 const details = ref<any>({});
 
@@ -55,8 +61,17 @@ function onClear() {
 }
 
 async function getStyleObject() {
-   const styleEl = createStyleString(details.value);
+  const styleEl = createStyleString(details.value);
   await copyValue(styleEl);
+}
+
+function hidePopupToShortButton() {
+  emit('hide-popup-to-button');
+}
+
+function getFontDetails() {
+  // TODO send in webworker info about font
+  emit('get-font-details');
 }
 
 async function copyValue(value: string) {
@@ -74,11 +89,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="popup-content text-gray-800 shadow w-max h-min" p="x-2 y-2" m="y-auto r-2" v-if="show">
+  <div class="popup-content text-gray-800 shadow w-max h-min" p="x-2 y-2" m="y-auto r-2" v-show="show && !hidePopup">
     <div class="header">
-      <button v-if="isDetails" class="popup-button-clear flex w-4 h-4 shadow cursor-pointer border-none"
+      <button v-if="isDetails" class="button-default flex w-4 h-4 shadow cursor-pointer border-none"
         bg="teal-600 hover:teal-700" @click="onClear">
         CLEAR
+      </button>
+      <button @click="hidePopupToShortButton" class="icon-button flex rounded-full shadow cursor-pointer border-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+          <path fill="#0d9488"
+            d="m12.05 19l2.85-2.825l-2.85-2.825L11 14.4l1.075 1.075q-.7.025-1.362-.225t-1.188-.775q-.5-.5-.763-1.15t-.262-1.3q0-.425.113-.85t.312-.825l-1.1-1.1q-.425.625-.625 1.325T7 12q0 .95.375 1.875t1.1 1.65q.725.725 1.625 1.088t1.85.387l-.95.95zm4.125-4.25q.425-.625.625-1.325T17 12q0-.95-.363-1.888T15.55 8.45q-.725-.725-1.638-1.075t-1.862-.35L13 6.05L11.95 5L9.1 7.825l2.85 2.825L13 9.6l-1.1-1.1q.675 0 1.375.263t1.2.762q.5.5.763 1.15t.262 1.3q0 .425-.112.85t-.313.825zM12 22q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22" />
+        </svg>
       </button>
       <button class="popup-button-close flex w-4 h-4 rounded-full shadow cursor-pointer border-none"
         bg="teal-600 hover:teal-700" @click="close">
@@ -151,7 +172,7 @@ onMounted(() => {
             <span class="text">
               {{ `color: ${details['color'] || ''};` }}
             </span>
-            <button class="copy-button flex rounded-full shadow cursor-pointer border-none"
+            <button class="icon-button flex rounded-full shadow cursor-pointer border-none"
               @click="() => copyValue(details['color'])">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                 <path fill="#0d9488"
@@ -161,9 +182,9 @@ onMounted(() => {
           </li>
           <li class="wrapper-li">
             <span class="text">
-              {{ `color: Hex - ${details['color'] && getHexColor(details['color']) || ''};` }}
+              {{ `Hex: ${details['color'] && getHexColor(details['color']) || ''};` }}
             </span>
-            <button class="copy-button flex rounded-full shadow cursor-pointer border-none"
+            <button class="icon-button flex rounded-full shadow cursor-pointer border-none"
               @click="() => copyValue(details['color'] && getHexColor(details['color']) || '')">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                 <path fill="#0d9488"
@@ -173,9 +194,13 @@ onMounted(() => {
           </li>
         </ul>
         <div class="action-panels">
-          <button class="copy-style-button shadow cursor-pointer border-none" @click="getStyleObject"
+          <button class="button-default copy-style-button shadow cursor-pointer border-none" @click="getStyleObject"
             bg="teal-600 hover:teal-700">
-            copy css
+            copy style
+          </button>
+          <button class="button-default  shadow cursor-pointer border-none" @click="getFontDetails"
+            bg="teal-600 hover:teal-700">
+            font details
           </button>
         </div>
       </div>
@@ -262,16 +287,6 @@ onMounted(() => {
   align-items: center;
 }
 
-.popup-button-clear {
-  pointer-events: all !important;
-  justify-content: center;
-  align-items: center;
-  width: 55px;
-  border-radius: 5px;
-  color: #0a0a0a;
-  font-size: 12px;
-}
-
 .popup-content .text {
   font-size: 14px;
   font-weight: 400;
@@ -339,7 +354,6 @@ onMounted(() => {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-
 }
 
 .start-screen-title {
@@ -352,7 +366,18 @@ onMounted(() => {
   width: 100%;
 }
 
-.copy-button {
+.button-default {
+  display: flex;
+  width: auto !important;
+  pointer-events: all !important;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  color: #0a0a0a;
+  font-size: 12px;
+}
+
+.icon-button {
   margin-left: auto;
   width: max-content;
   height: auto;
@@ -360,16 +385,11 @@ onMounted(() => {
 }
 
 .action-panels {
-   display: flex;
+  display: flex;
 }
+
 .action-panels .copy-style-button {
-  pointer-events: all !important;
-  justify-content: center;
-  align-items: center;
-  width: 65px;
-  border-radius: 5px;
-  color: #0a0a0a;
-  font-size: 12px;
   margin-right: 10px;
 }
+
 </style>

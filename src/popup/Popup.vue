@@ -37,10 +37,24 @@ onMounted(async() => {
   <main class="popup-main px-4 py-5 text-center text-gray-700">
     <Logo />
     <h1 class="text logo">Fontio</h1>
-    <SharedSubtitle />
-    <p class="text"> Scan activated button "Left CTRL"</p>
 
-    <button class="btn mt-2" @click="activatedExtension">
+    <p class="text"> Recommendations:</p>
+    <ul>
+      <li class="text">
+        - For activated details use button "Left CTRL";
+      </li>
+      <li class="text">
+        - For copy style use button in details popup;
+      </li>
+      <li class="text">
+        - Use button "font details" if need more information about selected font;
+      </li>
+      <li class="text">
+        - If you need some new options please <a target="_blank" href="https://www.linkedin.com/in/artur-stakhov/">contact with me</a>;
+      </li>
+    </ul>
+
+    <button class="start-button btn mt-2" @click="activatedExtension">
       Start
     </button>
 
@@ -53,5 +67,27 @@ onMounted(async() => {
   background-color: #363636;
   border: none;
   border-radius: 5px;
+}
+.popup-main  p {
+  margin-bottom: 5px;
+  text-align: left;
+}
+.popup-main li {
+  margin-bottom: 5px;
+  text-align: left;
+}
+.popup-main ul {
+  margin-left: 10px;
+}
+
+.popup-main a {
+  color: #ffd060;
+}
+
+.popup-main .start-button {
+   margin-top: 20px;
+   font-size: 12px;
+   width: 100px;
+   height: 30px;
 }
 </style>
