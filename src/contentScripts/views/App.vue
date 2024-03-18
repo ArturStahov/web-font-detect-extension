@@ -19,7 +19,8 @@ const elementInfo = reactive({
   "font-style": "",
   "color": "",
   "render-font-family": "",
-  "render-font-style": ""
+  "render-font-style": "",
+  "systemFont": ""
 })
 
 const tooltipPosition = reactive({

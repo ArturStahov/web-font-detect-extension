@@ -19,7 +19,12 @@ export async function getStyles(element: any, options: string[]) {
     return acc;
   }, {});
 
-  const familyName = await detectRenderedFont(element);
+  let familyName = await detectRenderedFont(element);
+
+  if (familyName.indexOf('system') !== -1) {
+    stylesObj.systemFont = familyName;
+    familyName = stylesObj['font-family']?.split(',')?.[0];
+  }
   
   return {
     ...stylesObj,
