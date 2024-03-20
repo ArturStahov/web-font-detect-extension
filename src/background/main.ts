@@ -45,12 +45,13 @@ onMessage('activate-extension-event', (data) => {
 })
 
 onMessage('get-fonts-details', async(data: any) => {
-  console.log('EVENT FROM CONTENT SCRIPT > GET-FONT-DETAILS', data)
+  console.log('EVENT FROM CONTENT SCRIPT > GET-FONT-DETAILS', data);
   let tabs = await browser.tabs.query({
     active: true,
     currentWindow: true
   });
   const currentTabId = tabs[0]?.id || 0;
+  
   await sendMessage('font-details', { activate: 'HELLOW!' }, { context: 'content-script', tabId: currentTabId  });
 })
 

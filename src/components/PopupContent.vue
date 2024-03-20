@@ -23,17 +23,25 @@ const props = defineProps({
       return null
     }
   },
+  details: {
+    type: Object,
+    default() {
+      return null
+    }
+  },
   hidePopup: {
     type: Boolean,
     default: false
   },
 });
 
-const { ping, elementInfo, hidePopup } = toRefs(props);
+const { ping, elementInfo, hidePopup, details } = toRefs(props);
 
-const details = ref<any>({});
+const styleObject = ref<any>({});
 
-const isLoading = ref<boolean>(false)
+const isLoading = ref<boolean>(false);
+
+const isUpdateDetails = ref<boolean>(false);
 
 function getHexColor(rgb: string) {
   return parseRgb(rgb)
@@ -42,26 +50,14 @@ function close() {
   emit('close');
 }
 
-const isDetails = ref(false);
-
-watch(ping, (newX) => {
-  console.log(`PING  ${newX}`)
-  isDetails.value = true;
-  isLoading.value = true;
-  details.value = { ...elementInfo.value };
-
-  const loadingTimer = setTimeout(() => {
-    isLoading.value = false;
-    clearTimeout(loadingTimer)
-  }, 600);
-})
+const isSetFontInfo = ref(false);
 
 function onClear() {
-  isDetails.value = false;
+  isSetFontInfo.value = false;
 }
 
 async function getStyleObject() {
-  const styleEl = createStyleString(details.value);
+  const styleEl = createStyleString(styleObject.value);
   await copyValue(styleEl);
 }
 
@@ -86,12 +82,29 @@ async function copyValue(value: string) {
 onMounted(() => {
 })
 
+watch(details, (newX) => {
+  console.log(`Details updated>>>`, newX)
+  isUpdateDetails.value = true;
+})
+
+watch(ping, (newX) => {
+  console.log(`PING  ${newX}`)
+  isSetFontInfo.value = true;
+  isLoading.value = true;
+  styleObject.value = { ...elementInfo.value };
+
+  const loadingTimer = setTimeout(() => {
+    isLoading.value = false;
+    clearTimeout(loadingTimer)
+  }, 600);
+})
+
 </script>
 
 <template>
   <div class="popup-content text-gray-800 shadow w-max h-min" p="x-2 y-2" m="y-auto r-2" v-show="show && !hidePopup">
     <div class="header">
-      <button v-if="isDetails" class="button-default flex w-4 h-4 shadow cursor-pointer border-none"
+      <button v-if="isSetFontInfo" class="button-default flex w-4 h-4 shadow cursor-pointer border-none"
         bg="teal-600 hover:teal-700" @click="onClear">
         CLEAR
       </button>
@@ -106,15 +119,15 @@ onMounted(() => {
         X
       </button>
     </div>
-    <div v-if="isDetails && !isLoading" class="popup-main">
+    <div v-if="isSetFontInfo && !isLoading" class="popup-main">
       <div class="wrapper-information">
         <ul class="font-list">
           <li class="font-family-row">
             <span class="text font-family-name">
-              {{ ` ${details['render-font-family'] || ''};` }}
+              {{ ` ${styleObject['render-font-family'] || ''};` }}
             </span>
             <span class="text font-family-style">
-              {{ ` ${details['render-font-style'] || ''};` }}
+              {{ ` ${styleObject['render-font-style'] || ''};` }}
             </span>
           </li>
           <li>
@@ -126,7 +139,7 @@ onMounted(() => {
               </path>
             </svg>
             <span class="text">
-              {{ ` ${details['font-size'] || ''};` }}
+              {{ ` ${styleObject['font-size'] || ''};` }}
             </span>
           </li>
           <li>
@@ -136,7 +149,7 @@ onMounted(() => {
                 d="M16 11h-3V5.41l.79.8a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42l-2.5-2.5a1 1 0 0 0-.33-.21a1 1 0 0 0-.76 0a1 1 0 0 0-.33.21l-2.5 2.5a1 1 0 0 0 1.42 1.42l.79-.8V11H8a1 1 0 0 0 0 2h3v5.59l-.79-.8a1 1 0 0 0-1.42 1.42l2.5 2.5a1 1 0 0 0 .33.21a.94.94 0 0 0 .76 0a1 1 0 0 0 .33-.21l2.5-2.5a1 1 0 0 0-1.42-1.42l-.79.8V13h3a1 1 0 0 0 0-2" />
             </svg>
             <span class="text">
-              {{ ` ${details['line-height'] || ''};` }}
+              {{ ` ${styleObject['line-height'] || ''};` }}
             </span>
           </li>
           <li>
@@ -146,7 +159,7 @@ onMounted(() => {
                 d="M5.725 18.275Q5 17.55 5 16.5t.725-1.775l9-9Q15.45 5 16.5 5t1.775.725Q19 6.45 19 7.5t-.725 1.775l-9 9Q8.55 19 7.5 19t-1.775-.725" />
             </svg>
             <span class="text">
-              {{ ` ${details['font-weight'] || ''}` }}
+              {{ ` ${styleObject['font-weight'] || ''}` }}
             </span>
           </li>
           <li>
@@ -155,7 +168,7 @@ onMounted(() => {
                 d="M46.172 30.014H9.828l3.758 3.757a2 2 0 0 1-2.829 2.829l-7.07-7.071a2.036 2.036 0 0 1-.05-.052A1.995 1.995 0 0 1 3 28.014c0-.493.178-.945.474-1.293c.063-.088.134-.171.212-.25l7.071-7.07a2 2 0 1 1 2.829 2.828L9.8 26.014h36.398l-3.785-3.785a2 2 0 1 1 2.829-2.829l7.07 7.071c.08.079.15.162.213.25c.296.348.474.8.474 1.293c0 .578-.245 1.098-.637 1.463a2.036 2.036 0 0 1-.05.052l-7.07 7.07a2 2 0 1 1-2.829-2.828z" />
             </svg>
             <span class="text">
-              {{ ` ${details['letter-spacing'] || ''};` }}
+              {{ ` ${styleObject['letter-spacing'] || ''};` }}
             </span>
           </li>
           <li>
@@ -165,15 +178,15 @@ onMounted(() => {
                 clip-rule="evenodd" />
             </svg>
             <span class="text">
-              {{ ` ${details['font-style'] || ''};` }}
+              {{ ` ${styleObject['font-style'] || ''};` }}
             </span>
           </li>
           <li class="wrapper-li">
             <span class="text">
-              {{ `color: ${details['color'] || ''};` }}
+              {{ `color: ${styleObject['color'] || ''};` }}
             </span>
             <button class="icon-button flex rounded-full shadow cursor-pointer border-none"
-              @click="() => copyValue(details['color'])">
+              @click="() => copyValue(styleObject['color'])">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                 <path fill="#0d9488"
                   d="M6 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2zM4 6a2 2 0 0 1 1-1.732V14.5A2.5 2.5 0 0 0 7.5 17h6.232A2 2 0 0 1 12 18H7.5A3.5 3.5 0 0 1 4 14.5z" />
@@ -182,10 +195,10 @@ onMounted(() => {
           </li>
           <li class="wrapper-li">
             <span class="text">
-              {{ `Hex: ${details['color'] && getHexColor(details['color']) || ''};` }}
+              {{ `Hex: ${styleObject['color'] && getHexColor(styleObject['color']) || ''};` }}
             </span>
             <button class="icon-button flex rounded-full shadow cursor-pointer border-none"
-              @click="() => copyValue(details['color'] && getHexColor(details['color']) || '')">
+              @click="() => copyValue(styleObject['color'] && getHexColor(styleObject['color']) || '')">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
                 <path fill="#0d9488"
                   d="M6 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2zM4 6a2 2 0 0 1 1-1.732V14.5A2.5 2.5 0 0 0 7.5 17h6.232A2 2 0 0 1 12 18H7.5A3.5 3.5 0 0 1 4 14.5z" />
@@ -241,7 +254,7 @@ onMounted(() => {
         </circle>
       </svg>
     </div>
-    <div v-if="!isLoading && !isDetails" class="start-screen">
+    <div v-if="!isLoading && !isSetFontInfo" class="start-screen">
       <span class="start-screen-title text">Select text</span>
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
         <g fill="#ffd060">
@@ -281,6 +294,8 @@ onMounted(() => {
 }
 
 .popup-button-close {
+  height: auto !important;
+  width: auto !important;
   margin-left: auto;
   pointer-events: all !important;
   justify-content: center;
@@ -368,6 +383,7 @@ onMounted(() => {
 
 .button-default {
   display: flex;
+  height: auto !important;
   width: auto !important;
   pointer-events: all !important;
   justify-content: center;

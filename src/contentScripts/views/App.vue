@@ -28,6 +28,8 @@ const tooltipPosition = reactive({
   "top": 0,
 })
 
+const details = ref<any>(null);
+
 const controlButton = ref({ code: 17, name: 'left CTRL' }); 
 
 const tooltipElement = ref<any>(null);
@@ -38,8 +40,9 @@ const pingSetToPopup = ref(false);
 
 const hidePopup = ref<boolean>(false);
 
-onMessage('font-details', (data) => {
-  console.log('FONT DETAILS', data)
+onMessage('font-details', (response) => {
+  console.log('FONT DETAILS>>>>', response.data);
+  details.value = { ...response?.data }
 })
 
 async function getFontDetailsFromApi() {
@@ -118,7 +121,7 @@ function openPopupButton() {
       :visible="visibleTooltip()" :controlButton="controlButton.name" />
 
     <!-- POPUP -->
-    <PopupContent :ping="pingSetToPopup" :elementInfo='elementInfo' :hidePopup="hidePopup" :show="show"
+    <PopupContent :ping="pingSetToPopup" :details="details" :elementInfo='elementInfo' :hidePopup="hidePopup" :show="show"
       @close="togglePopup()" @get-font-details="getFontDetailsFromApi" @hide-popup-to-button="hidePopupToButton" />
 
     <!-- BUTTON HIDE POPUP -->

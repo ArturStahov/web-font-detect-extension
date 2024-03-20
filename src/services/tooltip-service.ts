@@ -12,11 +12,10 @@ export function getTooltipPosition(clientX: number, clientY: number, tooltipElem
   const isLeftBorder = clientX < (elWidth + offsetX);
   const isTopBorder = clientY < (elHeight + offsetY);
   const isRightBorder = (clientX + elWidth / 2 + offsetX + 30) > windowWidth;
-  
   const leftPosition = isLeftBorder ? (clientX + offsetX ) : ((clientX - elWidth / 2) + window.scrollX + offsetX);
-  const topPosition = isTopBorder ? (clientY + offsetY) : (clientY - (elHeight + window.scrollY) - offsetY);
+  const topPosition = isTopBorder ? (clientY + offsetY) : (clientY - elHeight - offsetY ) + window.scrollY;
   const leftCorrect = isRightBorder ? (clientX - elWidth)  : leftPosition;
- 
+
   return {
     left: leftCorrect,
     top: topPosition
