@@ -41,7 +41,7 @@ const styleObject = ref<any>({});
 
 const isLoading = ref<boolean>(false);
 
-const isUpdateDetails = ref<boolean>(false);
+const isVisibleDetails = ref<boolean>(false);
 
 function getHexColor(rgb: string) {
   return parseRgb(rgb)
@@ -79,12 +79,16 @@ async function copyValue(value: string) {
   }
 }
 
+function closeDetailsScreen() {
+  isVisibleDetails.value = false;
+}
+
 onMounted(() => {
 })
 
 watch(details, (newX) => {
   console.log(`Details updated>>>`, newX)
-  isUpdateDetails.value = true;
+  isVisibleDetails.value = true;
 })
 
 watch(ping, (newX) => {
@@ -104,8 +108,17 @@ watch(ping, (newX) => {
 <template>
   <div class="popup-content text-gray-800 shadow w-max h-min" p="x-2 y-2" m="y-auto r-2" v-show="show && !hidePopup">
     <div class="header">
-      <button v-if="isSetFontInfo" class="button-default flex w-4 h-4 shadow cursor-pointer border-none"
-        bg="teal-600 hover:teal-700" @click="onClear">
+      <button v-if="isVisibleDetails" class="details-screen-button flex rounded-full shadow cursor-pointer border-none"
+        @click="closeDetailsScreen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+          <path fill="#0d9488" fill-rule="evenodd" stroke="#0d9488" stroke-linejoin="round" stroke-width="4"
+            d="M44 40.836c-4.893-5.973-9.238-9.362-13.036-10.168c-3.797-.805-7.412-.927-10.846-.365V41L4 23.545L20.118 7v10.167c6.349.05 11.746 2.328 16.192 6.833c4.445 4.505 7.009 10.117 7.69 16.836Z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+      <button v-if="isSetFontInfo && !isVisibleDetails"
+        class="button-default flex w-4 h-4 shadow cursor-pointer border-none" bg="teal-600 hover:teal-700"
+        @click="onClear">
         CLEAR
       </button>
       <button @click="hidePopupToShortButton" class="icon-button flex rounded-full shadow cursor-pointer border-none">
@@ -120,7 +133,8 @@ watch(ping, (newX) => {
       </button>
     </div>
     <div v-if="isSetFontInfo && !isLoading" class="popup-main">
-      <div class="wrapper-information">
+      <!-- INFORMATION SCREEN -->
+      <div v-if="!isVisibleDetails" class="wrapper-information">
         <ul class="font-list">
           <li class="font-family-row">
             <span class="text font-family-name">
@@ -217,7 +231,15 @@ watch(ping, (newX) => {
           </button>
         </div>
       </div>
+
+      <!-- DETAILS SCREEN -->
+      <div v-if="isVisibleDetails" class="details-screen">
+
+        <p>DETAILS SCREEN</p>
+      </div>
     </div>
+
+    <!-- LOADING SCREEN -->
     <div v-if="isLoading" class="loader">
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
         <circle cx="12" cy="2" r="0" fill="#ffd060">
@@ -254,6 +276,8 @@ watch(ping, (newX) => {
         </circle>
       </svg>
     </div>
+
+    <!-- START SCREEN -->
     <div v-if="!isLoading && !isSetFontInfo" class="start-screen">
       <span class="start-screen-title text">Select text</span>
       <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
@@ -408,4 +432,9 @@ watch(ping, (newX) => {
   margin-right: 10px;
 }
 
+.details-screen-button {
+  width: max-content;
+  height: auto;
+  background: none;
+}
 </style>
