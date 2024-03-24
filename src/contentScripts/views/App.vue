@@ -43,9 +43,13 @@ const hidePopup = ref<boolean>(false);
 let cashedFontFamilyName = ''
 
 onMessage('font-details', (response) => {
-  const details = getFontDetailsConfig(response.data)
+  if(response.data.status === 'error') {
+    details.value = { ...response.data };
+    return;
+  }
+  const detailsConfig = getFontDetailsConfig(response.data)
   console.log('FONT DETAILS>>>>', details);
-  details.value = { ...details }
+  details.value = { ...detailsConfig }
 })
 
 async function getFontDetailsFromApi() {

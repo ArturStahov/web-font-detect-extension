@@ -65,6 +65,7 @@ onMessage('get-fonts-details', async(data: any) => {
       font: fontItem.family,
       category: fontItem.category,
       files: fontItem.files,
+      status: 'success'
     }
     await sendMessage('font-details', details, { context: 'content-script', tabId: currentTabId });
   } catch (error: any) {

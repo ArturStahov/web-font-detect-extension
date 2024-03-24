@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import 'uno.css'
-import { ref, onMounted, reactive, defineEmits, defineProps, watch, toRefs, computed } from 'vue';
+import { ref, onMounted, defineEmits, defineProps, watch, toRefs } from 'vue';
 import { createStyleString, parseRgb } from '~/services/content-service';
 
 const emit = defineEmits<{
@@ -66,7 +66,6 @@ function hidePopupToShortButton() {
 }
 
 function getFontDetails() {
-  // TODO send in webworker info about font
   emit('get-font-details');
   isVisibleDetails.value = true;
 }
@@ -87,17 +86,12 @@ function closeDetailsScreen() {
 onMounted(() => {
 })
 
-// watch(details, (newX) => {
-//   console.log(`Details updated>>>`, newX)
-//   isVisibleDetails.value = true;
-// })
-
 watch(ping, (newX) => {
   console.log(`PING  ${newX}`)
   isSetFontInfo.value = true;
   isLoading.value = true;
   styleObject.value = { ...elementInfo.value };
-
+  isVisibleDetails.value = false;
   const loadingTimer = setTimeout(() => {
     isLoading.value = false;
     clearTimeout(loadingTimer)
@@ -234,9 +228,27 @@ watch(ping, (newX) => {
       </div>
 
       <!-- DETAILS SCREEN -->
-      <div v-if="isVisibleDetails" class="details-screen">
+      <div v-if="isVisibleDetails && !isLoading" class="details-screen">
+        <div v-if="details && details.status === 'success'" class="details-wrapper">
+          <h2 class="text font-family-name">{{ details.font }}
+          </h2>
+          <a class="button-font-info" :href="`https://fonts.google.com/specimen/Roboto?query=${details.font}`"
+            target="_blank">
+            <div class="i-clarity:info-solid w-24px h-24px" style="color: #0d9488;"></div>
+          </a>
+          <ul class="details-list">
+            <li v-for="item in details.links" class="details-item">
+              <a :href="item.link" target="_self" class="details-item__link text">
+                {{ item.name }}
+                <div class="i-ic:round-file-download w-24px h-24px" style="color: #0d9488;"></div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div v-if="details && details.status === 'error'" class="details-wrapper__error">
+          <p class="text details-wrapper__error-text">Not found!</p>
+        </div>
 
-        <p>DETAILS SCREEN</p>
       </div>
     </div>
 
@@ -366,7 +378,7 @@ watch(ping, (newX) => {
   margin-bottom: 10px;
 }
 
-.popup-content .wrapper-information .font-family-name {
+.popup-content .font-family-name {
   color: #ffd060;
   font-weight: 700;
   margin-right: 5px;
@@ -435,7 +447,67 @@ watch(ping, (newX) => {
 
 .details-screen-button {
   width: max-content;
-  height: auto;
   background: none;
+}
+
+.details-wrapper {
+  overflow: hidden;
+  height: 270px;
+}
+
+.details-wrapper h2 {
+  margin-left: 5px;
+}
+
+.details-list {
+  height: 215px;
+  overflow-y: auto;
+  padding-left: 10px;
+  list-style: none;
+  padding-right: 10px;
+}
+
+.details-item {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.details-item__link {
+  text-decoration: none;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.details-wrapper__error {
+  height: 237px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.details-wrapper__error-text {
+  opacity: 0.6;
+}
+
+.button-font-info {
+  position: absolute;
+  top: 42px;
+  left: 90px;
+}
+
+.details-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.details-list::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  opacity: 0.5;
+}
+
+.details-list::-webkit-scrollbar-thumb {
+  background-color: #ffd060;
+  outline: 1px solid slategrey;
 }
 </style>
