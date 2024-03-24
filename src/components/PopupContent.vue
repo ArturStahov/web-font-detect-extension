@@ -68,6 +68,7 @@ function hidePopupToShortButton() {
 function getFontDetails() {
   // TODO send in webworker info about font
   emit('get-font-details');
+  isVisibleDetails.value = true;
 }
 
 async function copyValue(value: string) {
@@ -86,10 +87,10 @@ function closeDetailsScreen() {
 onMounted(() => {
 })
 
-watch(details, (newX) => {
-  console.log(`Details updated>>>`, newX)
-  isVisibleDetails.value = true;
-})
+// watch(details, (newX) => {
+//   console.log(`Details updated>>>`, newX)
+//   isVisibleDetails.value = true;
+// })
 
 watch(ping, (newX) => {
   console.log(`PING  ${newX}`)

@@ -4,9 +4,9 @@ import 'uno.css'
 import { ref, onMounted, reactive } from 'vue'
 import { tagWithContentConfig, getStyles, styleOptions } from '~/services/content-service';
 import { getTooltipPosition, isPointOverText } from '~/services/tooltip-service';
+import { getFontDetailsConfig } from '~/services/font';
 
 import { onMessage, sendMessage } from 'webext-bridge/content-script'
-//import { storageDemo } from '~/logic/storage'
 
 const [show, togglePopup] = useToggle(false);
 
@@ -40,12 +40,19 @@ const pingSetToPopup = ref(false);
 
 const hidePopup = ref<boolean>(false);
 
+let cashedFontFamilyName = ''
+
 onMessage('font-details', (response) => {
-  console.log('FONT DETAILS>>>>', response.data);
-  details.value = { ...response?.data }
+  const details = getFontDetailsConfig(response.data)
+  console.log('FONT DETAILS>>>>', details);
+  details.value = { ...details }
 })
 
 async function getFontDetailsFromApi() {
+  if (cashedFontFamilyName === elementInfo['render-font-family']) {
+    return;
+  }
+  cashedFontFamilyName = elementInfo['render-font-family'];
   await sendMessage('get-fonts-details', { ...elementInfo }, "background");
 }
 
@@ -150,7 +157,7 @@ function openPopupButton() {
   align-items: center;
   pointer-events: all !important;
   position: fixed;
-  bottom: 5px;
+  top: 5px;
   right: 5px;
   z-index: 999999999999;
 }

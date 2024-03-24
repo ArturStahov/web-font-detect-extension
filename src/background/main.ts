@@ -1,5 +1,6 @@
 import { onMessage, sendMessage } from 'webext-bridge/background'
 import type { Tabs } from 'webextension-polyfill'
+import { getFontsByFamily } from '~/services/api-service'
 
 // only on dev mode
 if (import.meta.hot) {
@@ -46,12 +47,29 @@ onMessage('activate-extension-event', (data) => {
 
 onMessage('get-fonts-details', async(data: any) => {
   console.log('EVENT FROM CONTENT SCRIPT > GET-FONT-DETAILS', data);
-  let tabs = await browser.tabs.query({
+  let tabs = await browser?.tabs?.query({
     active: true,
     currentWindow: true
   });
   const currentTabId = tabs[0]?.id || 0;
-  
-  await sendMessage('font-details', { activate: 'HELLOW!' }, { context: 'content-script', tabId: currentTabId  });
+
+  const fontName = data && data.data['render-font-family'] || '';
+  try {
+    const response = await getFontsByFamily(fontName);
+    const fontItem = response.items[0];
+    if (!fontItem) {
+      throw new Error('not found');
+    }
+    
+    const details = {
+      font: fontItem.family,
+      category: fontItem.category,
+      files: fontItem.files,
+    }
+    await sendMessage('font-details', details, { context: 'content-script', tabId: currentTabId });
+  } catch (error: any) {
+    console.log(`Error: get font details for font ${fontName}, ${error.message}`);
+    await sendMessage('font-details', { status: 'error' }, { context: 'content-script', tabId: currentTabId });
+  }
 })
 

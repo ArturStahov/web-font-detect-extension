@@ -13,7 +13,7 @@ async function activatedExtension() {
 }
 
 async function activateContentScript() {
-  let tabs = await browser.tabs.query({
+  let tabs = await browser?.tabs?.query({
     active: true,
     currentWindow: true
   });
