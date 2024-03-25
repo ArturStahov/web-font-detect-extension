@@ -3,10 +3,6 @@
 import { onMounted } from 'vue';
 import { sendMessage } from 'webext-bridge/popup'
 
-// function openOptionsPage() {
-//   browser.runtime.openOptionsPage()
-// }
-
 async function activatedExtension() {
   await activateContentScript();
   await closePopup();
