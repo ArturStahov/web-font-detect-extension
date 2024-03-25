@@ -48,7 +48,7 @@ onMessage('font-details', (response) => {
     return;
   }
   const detailsConfig = getFontDetailsConfig(response.data)
-  console.log('FONT DETAILS>>>>', details);
+
   details.value = { ...detailsConfig }
 })
 
@@ -68,15 +68,15 @@ onMounted(() => {
   document.addEventListener('mousemove', handlerMousePosition );
   window.addEventListener("keydown", handlerControlButton);
   togglePopup();
-  //controlButton.value = storeEventButton;
 })
 
 function handlerControlButton(event: any) {
   if (!show.value || event.isComposing || event.keyCode === 229) {
     return;
   }
+  
   if (event.keyCode === controlButton.value.code || event.ctrlKey) {
-    pingSetToPopup.value = !pingSetToPopup.value;
+   pingSetToPopup.value = !pingSetToPopup.value;
   }
   hidePopup.value = false;
 }
@@ -110,6 +110,7 @@ async function getElementInfo(element: Element, event: any): Promise<{ [key: str
     style: null,
   }
   const isElementOnTheText = isPointOverText(event);
+  
   if (isElementWithTextContent && isElementOnTheText) {
     information.style = await getStyles(element, styleOptions);
   }

@@ -6,7 +6,6 @@ import { setupApp } from '~/logic/common-setup'
 
 // Firefox `browser.tabs.executeScript()` requires scripts return a primitive value
 (() => {
-  console.info('CONTENT_SCRIPT SUBSCRIBE')
   onMessage('activate-extension-event', (data) => {
     mountContentPopup();
   })

@@ -6,8 +6,6 @@ import { isDev, isFirefox, port, r } from '../scripts/utils'
 export async function getManifest() {
   const pkg = await fs.readJSON(r('package.json')) as typeof PkgType
 
-  // update this file to update this manifest.json
-  // can also be conditional based on your need
   const manifest: Manifest.WebExtensionManifest = {
     manifest_version: 3,
     name: pkg.displayName || pkg.name,
@@ -17,10 +15,6 @@ export async function getManifest() {
       default_icon: './assets/icon-512.png',
       default_popup: './dist/popup/index.html',
     },
-    // options_ui: {
-    //   page: './dist/options/index.html',
-    //   open_in_tab: true,
-    // },
     background: isFirefox
       ? {
           scripts: ['dist/background/index.mjs'],
@@ -47,7 +41,7 @@ export async function getManifest() {
         ],
         js: [
           'dist/contentScripts/index.global.js',
-        ],
+        ]
       },
     ],
     web_accessible_resources: [

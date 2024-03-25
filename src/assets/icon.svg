@@ -1,10 +1,26 @@
-<svg width="32" height="32" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g opacity="1" clip-path="url(#clip0_1860_37159)">
-    <path d="M108.334 16.666V24.9993H100V74.9993H91.667V83.3327H75.0003V91.666H66.667V99.9993H58.3337V108.333H41.667V99.9993H33.3337V91.666H25.0003V74.9993H16.667V124.999H25.0003V133.333H33.3337V141.666H41.667V149.999H50.0003V183.333H66.667V174.999H58.3337V166.666H66.667V158.333H75.0003V149.999H83.3337V158.333H91.667V183.333H108.334V174.999H100V141.666H108.334V133.333H116.667V124.999H125V99.9993H133.334V108.333H141.667V91.666H125V74.9993H166.667V66.666H141.667V58.3327H183.334V24.9993H175V16.666H108.334ZM116.667 24.9993H125V33.3327H116.667V24.9993Z" fill="#33ab3e"/>
-  </g>
-  <defs>
-    <clipPath id="clip0_1860_37159">
-      <rect width="200" height="200" fill="white"/>
-    </clipPath>
-  </defs>
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+	<title>icon-svg</title>
+	<defs>
+		<clipPath clipPathUnits="userSpaceOnUse" id="cp1">
+			<path d="m0 0h200v200h-200z"/>
+		</clipPath>
+	</defs>
+	<style>
+		tspan { white-space:pre } 
+		.s0 { fill: #33ab3e } 
+		.t1 { font-size: 150px;fill: #1f4b1f;font-weight: 400;font-family: "DejaVuSans", "DejaVu Sans" } 
+	</style>
+	<g id="Clip-Path" clip-path="url(#cp1)">
+		<g id="Layer">
+			<path id="Layer" fill-rule="evenodd" class="s0" d="m175 16.7v8.3h8.3v33.3h-41.6v8.4h25v8.3h-41.7v16.7h16.7v16.6h-8.4v-8.3h-8.3v25h-8.3v8.3h-8.4v8.4h-8.3v33.3h8.3v8.3h-16.6v-25h-8.4v-8.3h-8.3v8.3h-8.3v8.4h-8.4v8.3h8.4v8.3h-16.7v-33.3h-8.3v-8.3h-8.4v-8.4h-8.3v-8.3h-8.3v-50h8.3v16.7h8.3v8.3h8.4v8.3h16.6v-8.3h8.4v-8.3h8.3v-8.4h16.7v-8.3h8.3v-50h8.3v-8.3zm-58.3 16.6h8.3v-8.3h-8.3z"/>
+		</g>
+		<text id="." style="transform: matrix(1,0,0,1,148,51)" >
+			<tspan x="0" y="0" class="t1">.
+</tspan>
+		</text>
+		<text id="." style="transform: matrix(1,0,0,1,-3,84)" >
+			<tspan x="0" y="0" class="t1">.
+</tspan>
+		</text>
+	</g>
 </svg>

@@ -73,7 +73,6 @@ function getFontDetails() {
 async function copyValue(value: string) {
   try {
     await navigator.clipboard.writeText(value);
-    console.log('copied')
   } catch (error) {
     console.log('failed to copy to clipboard. error=' + error);
   }
@@ -86,8 +85,16 @@ function closeDetailsScreen() {
 onMounted(() => {
 })
 
+let caschedValue:string = '';
+
 watch(ping, (newX) => {
-  console.log(`PING  ${newX}`)
+  if (!Object.values(elementInfo.value)?.[0]?.length) {
+    return;
+  } 
+  if (caschedValue === JSON.stringify(elementInfo.value)) {
+    return;
+  }
+  caschedValue = JSON.stringify(elementInfo.value);
   isSetFontInfo.value = true;
   isLoading.value = true;
   styleObject.value = { ...elementInfo.value };
