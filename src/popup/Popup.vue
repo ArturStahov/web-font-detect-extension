@@ -37,16 +37,8 @@ onMounted(async() => {
     <p class="text"> Recommendations:</p>
     <ul>
       <li class="text">
-        - For activated details use button "Left CTRL";
-      </li>
-      <li class="text">
-        - For copy style use button in details popup;
-      </li>
-      <li class="text">
-        - Use button "font details" if need more information about selected font;
-      </li>
-      <li class="text">
-        - If you need some new options please <a target="_blank" href="https://www.linkedin.com/in/artur-stakhov/">contact with me</a>;
+        - If you need some new options please <a target="_blank" href="mailto:stakhov.artur@gmail.com">contact with
+          me</a>;
       </li>
     </ul>
 
