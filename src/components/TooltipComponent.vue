@@ -5,9 +5,6 @@ import { ref, onMounted, reactive, defineProps } from 'vue'
 const props = defineProps({
   position: {
     type: Object,
-    default() {
-      return {left: 0, top: 0}
-    }
   },
   visible: {
     type: String,
@@ -30,7 +27,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="tooltip-fontio" :style="`display: ${visible};left: ${position.left}px; top: ${position.top}px`">
+  <div class="tooltip-fontio"
+    :style="`opacity:${visible};display: flex;left: ${position?.left}px; top: ${position?.top}px`">
     <p class='font-info'> {{ `${elementInfo && elementInfo['render-font-family']}` }} </p>
     <div class="tooltip-wrapper-information">
       <svg class="icon-font-size" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
@@ -75,6 +73,7 @@ const props = defineProps({
   border-radius: 5px;
   box-shadow: 1px 1px 5px 1px #ffffff57;
   z-index: 2147483647;
+  opacity: 0;
   transform: translate3d(0, 0, 0);
 }
 

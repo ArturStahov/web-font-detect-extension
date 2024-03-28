@@ -61,7 +61,8 @@ async function getFontDetailsFromApi() {
 }
 
 const visibleTooltip = () => {
-  return isShowTooltip.value ? 'flex': 'none';
+  return isShowTooltip.value ? '1' : '0';
+ // return isShowTooltip.value ? 'flex': 'none';
 }
 
 onMounted(() => {
@@ -82,22 +83,28 @@ function handlerControlButton(event: any) {
 }
 
 async function handlerMousePosition(event: any) {
-  isShowTooltip.value = false;
   if (!show.value) {
     return;
   }
+  isShowTooltip.value = false;
   const x = event.clientX;
   const y = event.clientY;
+
+  Object.assign(tooltipPosition, {
+    left: x + window.scrollX,
+    top: y + window.scrollY
+  });
+
+  const position = getTooltipPosition(x, y, tooltipElement.value);
+  position && Object.assign(tooltipPosition, position);
 
   const element = document.elementFromPoint(x, y);
   if (!element) return;
 
-  const position = getTooltipPosition(x, y, tooltipElement.value);
-  position && Object.assign(tooltipPosition, position);
   const information = await getElementInfo(element, event);
-  
-  if (information?.style) {
-    Object.assign(elementInfo, information?.style);
+
+  Object.assign(elementInfo, information?.style);
+  if (information?.style) { 
     isShowTooltip.value = true;
   }
 }
