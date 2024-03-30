@@ -3,7 +3,7 @@
   "displayName": "Fontio",
   "version": "0.0.1",
   "private": true,
-  "description": "Fast and simple use!",
+  "description": "Effortlessly detect fonts on Chrome. Lightning-fast extension provides font info while browsing. Simplify your design process!",
   "scripts": {
     "dev": "npm run clear && cross-env NODE_ENV=development run-p dev:*",
     "dev-firefox": "npm run clear && cross-env NODE_ENV=development EXTENSION=firefox run-p dev:*",

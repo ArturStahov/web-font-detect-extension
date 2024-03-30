@@ -371,6 +371,7 @@ watch(ping, (newX) => {
 }
 
 .popup-content .wrapper-information .font-list li {
+  display: flex;
   text-decoration: none;
   list-style: none;
   width: 100%;
@@ -381,8 +382,8 @@ watch(ping, (newX) => {
   margin-right: 10px;
 }
 
-.font-family-row {
-  margin-bottom: 10px;
+.popup-content .font-list .font-family-row {
+  margin-bottom: 15px !important;
 }
 
 .popup-content .font-family-name {
@@ -445,6 +446,8 @@ watch(ping, (newX) => {
 }
 
 .action-panels {
+  position: absolute;
+  bottom: 10px;
   display: flex;
 }
 

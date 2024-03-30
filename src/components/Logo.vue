@@ -1,5 +1,5 @@
 <template>
-  <a class="icon-btn mx-2 text-2xl" rel="noreferrer" href="" target="_blank" title="GitHub">
-     <img src="/assets/icon.svg" class="icon-btn mx-2 text-2xl" alt="extension icon">
-  </a>
+  <span class="icon-btn mx-2 text-2xl" title="Fontio - detect font extension">
+    <img src="/assets/icon128.png" class="icon-btn mx-2 text-2xl" alt="Fontio - detect font extension">
+  </span>
 </template>
