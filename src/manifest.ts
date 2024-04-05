@@ -11,8 +11,9 @@ export async function getManifest() {
     name: pkg.displayName || pkg.name,
     version: pkg.version,
     description: pkg.description,
+    "author": "RokkArt",
     action: {
-      default_icon: './assets/icon512.png',
+      default_icon: './assets/icon128.png',
       default_popup: './dist/popup/index.html',
     },
     options_ui: {
@@ -46,7 +47,8 @@ export async function getManifest() {
         ],
         js: [
           'dist/contentScripts/index.global.js',
-        ]
+        ],
+        "all_frames": true,
       },
     ],
     web_accessible_resources: [
@@ -61,6 +63,7 @@ export async function getManifest() {
         ? `script-src \'self\' http://localhost:${port}; object-src \'self\'`
         : 'script-src \'self\'; object-src \'self\'',
     },
+    "incognito": "spanning",
   }
 
   // FIXME: not work in MV3
