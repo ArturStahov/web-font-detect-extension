@@ -34,11 +34,13 @@ onMounted(async() => {
     <Logo />
     <h1 class="text logo">Fontio</h1>
 
-    <p class="text"> Recommendations:</p>
+    <p class="text"> Contacts:</p>
     <ul>
       <li class="text">
-        - If you need some new options please <a target="_blank" href="mailto:stakhov.artur@gmail.com">contact with
-          me</a>;
+        - Mail: <a target="_blank" href="mailto:stakhov.artur@gmail.com">send mail</a>;
+      </li>
+      <li class="text">
+        - Linkedin: <a target="_blank" href="https://www.linkedin.com/in/artur-stakhov/">visit</a>;
       </li>
     </ul>
 
